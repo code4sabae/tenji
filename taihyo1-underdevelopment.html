@@ -1,0 +1,142 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>1点式体表点字 - taihyo1</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<link rel="apple-touch-icon" href="reader.png"/>
+<meta property="og:image" content="reader.png">
+<script>"use strict";
+
+var toTenji = function(s) {
+	
+};
+
+window.onload = function() {
+	var conv = function() {
+		var s = tain.value;
+		var res = "";
+		for (var i = 0; i < s.length; i++) {
+			var c = s.charAt(i);
+			var n = nab[c];
+			if (c == '\n') {
+				res += '\n';
+				continue;
+			}
+			if (c == ' ') {
+				n = 0;
+			} else if (!n) {
+				continue;
+			}
+			res += tenji.charAt(n & 0x3f);
+		}
+		taout.value = res;
+	};
+	
+	btn.onclick = conv;
+	tain.onchange = conv;
+	tain.onkeyup = conv;
+	
+	tain.value = "ABCDEFG\ntype or drop the file here";
+	conv();
+	
+	// for drop
+	tain.addEventListener("drop", function(e) {
+		tain.value = "";
+		var files = event.dataTransfer.files;
+		var cnt = files.length;
+		for (var i = 0; i < files.length; i++) {
+			var f = files[i];
+			loadFileTxt(f, function(f, s) {
+				if (s != null) {
+					/*
+					var s = "";
+					for (var i = 0; i < b.length; i++) {
+						s += String.fromCharCode(b[i]);
+					}
+					*/
+					tain.value += s;
+				}
+				cnt--;
+				if (cnt == 0) {
+					conv();
+				}
+			});
+		}
+		e.preventDefault();
+	}, false);
+	
+	var loadFileBin = function(f, callback) {
+		var reader = new FileReader();
+		reader.onerror = function(e) {
+			disp.innerHTML = "読み取り時にエラーが発生しました。";
+			callback(this.f, null);
+		};
+		reader.f = f;
+		reader.onload = function(e) {
+			var b = new Uint8Array(e.target.result);
+//			console.log(b);
+			callback(this.f, b);
+		};
+		reader.readAsArrayBuffer(f);
+	};
+	var loadFileTxt = function(f, callback) {
+		var reader = new FileReader();
+		reader.onerror = function(e) {
+			disp.innerHTML = "読み取り時にエラーが発生しました。";
+			callback(this.f, null);
+		};
+		reader.f = f;
+		reader.onload = function(e) {
+			callback(this.f, e.target.result);
+		};
+		reader.readAsText(f);
+	};
+};
+
+</script>
+<style>
+body {
+	font-family: sans-serif;
+}
+#main {
+	padding: 10px;
+}
+textarea {
+	display: block;
+	padding: 5px;
+	margin: 0px;
+	width: 90%;
+	height: 10em;
+}
+button {
+	margin: 10px 0px;
+}
+#src {
+	margin: 20px;
+}
+#taout {
+	font-size: 30px;
+}
+</style>
+</head>
+<body>
+
+<br>
+<br>
+<br>
+<h1 style="margin:3em">⠟⠴⠐⠳</h1>
+<br>
+<br>
+<br>
+
+<h1>1点式体表点字 - taihyo1</h1>
+<div id="main">
+<input type=text id=tain><br>
+<div id=taout></div>
+<div id=taihyo></div>
+</div>
+
+<div id=src>
+APP: CC BY <a href=http://fukuno.jig.jp/2055 target=_blank>fukuno.jig.jp</a>
+</div>
+
+</body>
+</html>

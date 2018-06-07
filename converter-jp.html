@@ -1,0 +1,152 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>tenji converter - 点字変換 日本語点字体系対応版</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<link rel="apple-touch-icon" href="tenji-icon.png"/>
+<meta property="og:image" content="converter-jp.png">
+<script src=tenkanji.js></script>
+<script>"use strict";
+
+var tenji = "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿";
+
+var tenji2num = function(n) { // 123456 -> offset of tenji char
+	var res = 0;
+	for (;;) {
+		var m = n % 10;
+		n = Math.floor(n / 10);
+		res += 1 << (m - 1);
+		if (!n)
+			break;
+	}
+	return res;
+};
+
+window.onload = function() {
+	var conv = function() {
+		var s = tain.value;
+		var res = "";
+		for (var i = 0; i < s.length; i++) {
+			var c = s.charAt(i);
+			if (c == '\n') {
+				res += '\n';
+				continue;
+			}
+			if (c == ' ' || c == '　') {
+				res += " ";
+				continue;
+			}
+			var array = TENKANJI[c];
+			if (array == null) {
+				console.log(c + " is null");
+				continue;
+			}
+			for (var j = 0; j < array.length; j++) {
+				res += tenji.charAt(tenji2num(array[j]));
+			}
+		}
+		taout.value = res;
+	};
+	
+	btn.onclick = conv;
+	tain.onchange = conv;
+	tain.onkeyup = conv;
+	
+	tain.value = "漢字混じりの文章を点字化します";
+	conv();
+	
+	// for drop
+	tain.addEventListener("drop", function(e) {
+		tain.value = "";
+		var files = event.dataTransfer.files;
+		var cnt = files.length;
+		for (var i = 0; i < files.length; i++) {
+			var f = files[i];
+			loadFileTxt(f, function(f, s) {
+				if (s != null) {
+					/*
+					var s = "";
+					for (var i = 0; i < b.length; i++) {
+						s += String.fromCharCode(b[i]);
+					}
+					*/
+					tain.value += s;
+				}
+				cnt--;
+				if (cnt == 0) {
+					conv();
+				}
+			});
+		}
+		e.preventDefault();
+	}, false);
+	
+	var loadFileBin = function(f, callback) {
+		var reader = new FileReader();
+		reader.onerror = function(e) {
+			disp.innerHTML = "読み取り時にエラーが発生しました。";
+			callback(this.f, null);
+		};
+		reader.f = f;
+		reader.onload = function(e) {
+			var b = new Uint8Array(e.target.result);
+//			console.log(b);
+			callback(this.f, b);
+		};
+		reader.readAsArrayBuffer(f);
+	};
+	var loadFileTxt = function(f, callback) {
+		var reader = new FileReader();
+		reader.onerror = function(e) {
+			disp.innerHTML = "読み取り時にエラーが発生しました。";
+			callback(this.f, null);
+		};
+		reader.f = f;
+		reader.onload = function(e) {
+			callback(this.f, e.target.result);
+		};
+		reader.readAsText(f);
+	};
+};
+
+</script>
+<style>
+body {
+	font-family: sans-serif;
+}
+#main {
+	padding: 10px;
+}
+textarea {
+	display: block;
+	padding: 5px;
+	margin: 0px;
+	width: 90%;
+	height: 10em;
+}
+button {
+	margin: 10px 0px;
+}
+#src {
+	margin: 20px;
+}
+#taout {
+	font-size: 30px;
+}
+</style>
+</head>
+<body>
+
+<h1>tenji converter - 点字変換 日本語点字体系対応版</h1>
+<div id="main">
+<textarea id=tain></textarea>
+<button id=btn>convert</button><br>
+<textarea id=taout></textarea>
+</div>
+*カタカナ、数字や英字などのモードへの変換など未対応です
+
+<div id=src>
+DATA: <a href=http://github.com/code4sabae/tenji/>日本語点字体系</a> CC BY <a href=http://ubq-brl.at.webry.info/>長谷川貞夫 (Sadao Hasegawa)</a><br>
+APP: tenji converter CC BY <a href=http://fukuno.jig.jp/2145 target=_blank>fukuno.jig.jp</a><br>
+</div>
+
+</body>
+</html>

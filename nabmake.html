@@ -1,0 +1,159 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>hex2dec</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+<meta property="og:image" content="http://fukuno.jig.jp/app/util/makeimgtag.png">
+<script src="lib/fukuno.js"></script>
+<script>"use strict";
+var nab = `!	2,3,4,6の点
+"	5の点
+#	3,4,5,6の点
+$	1,2,4,6の点
+%	1,4,6の点
+&	1,2,3,4,6の点
+'	3の点
+(	1,2,3,5,6の点
+)	2,3,4,5,6の点
+*	1,6の点
++	3,4,6の点
+,	6の点
+-	3,6の点
+.	4,6の点
+/	3,4の点
+0	3,5,6の点
+1	2の点
+2	2,3の点
+3	2,5の点
+4	2,5,6の点
+5	2,6の点
+6	2,3,5の点
+7	2,3,5,6の点
+8	2,3,6の点
+9	3,5の点
+:	1,5,6の点
+;	5,6の点
+<	1,2,6の点
+=	1,2,3,4,5,6の点
+>	3,4,5の点
+?	1,4,5,6の点
+@	4の点
+A	1,7の点
+B	1,2,7の点
+C	1,4,7の点
+D	1,4,5,7の点
+E	1,5,7の点
+F	1,2,4,7の点
+G	1,2,4,5,7の点
+H	1,2,5,7の点
+I	2,4,7の点
+J	2,4,5,7の点
+K	1,3,7の点
+L	1,2,3,7の点
+M	1,3,4,7の点
+N	1,3,4,5,7の点
+O	1,3,5,7の点
+P	1,2,3,4,7の点
+Q	1,2,3,4,5,7の点
+R	1,2,3,5,7の点
+S	2,3,4,7の点
+T	2,3,4,5,7の点
+U	1,3,6,7の点
+V	1,2,3,6,7の点
+W	2,4,5,6,7の点
+X	1,3,4,6,7の点
+Y	1,3,4,5,6,7の点
+Z	1,3,5,6,7の点
+[	2,4,6の点
+\	1,2,5,6の点
+]	1,2,4,5,6の点
+^	4,5の点
+_	4,5,6の点
+` + "`" + `	4,7の点
+a	1の点
+b	1,2の点
+c	1,4の点
+d	1,4,5の点
+e	1,5の点
+f	1,2,4の点
+g	1,2,4,5の点
+h	1,2,5の点
+i	2,4の点
+j	2,4,5の点
+k	1,3の点
+l	1,2,3の点
+m	1,3,4の点
+n	1,3,4,5の点
+o	1,3,5の点
+p	1,2,3,4の点
+q	1,2,3,4,5の点
+r	1,2,3,5の点
+s	2,3,4の点
+t	2,3,4,5の点
+u	1,3,6の点
+v	1,2,3,6の点
+w	2,4,5,6の点
+x	1,3,4,6の点
+y	1,3,4,5,6の点
+z	1,3,5,6の点
+{	2,4,6,7の点
+|	1,2,5,6,7の点
+}	1,2,4,5,6,7の点
+~	4,5,7の点`;
+
+alert(nab);
+
+window.onload = function() {
+	var ss = nab.split("\n");
+	var res = "var nab = {\n";
+	for (var i = 0; i < ss.length; i++) {
+		var s = ss[i];
+		var c = s.substring(0, 1);
+		var nn = s.substring(2, s.length - 2).split(",");
+		var n = 0;
+		for (var j = 0; j < nn.length; j++) {
+			n |= parseInt(1 << (nn[j] - 1));
+		}
+		var bin = "0000000" + n.toString(2);
+		bin = bin.substring(bin.length - 7);
+		if (c == '\\')
+			c = '\\\\';
+		if (c == '\'')
+			c = '\\\'';
+		res += "'" + c + "': 0b" + bin + ",\n";
+	}
+	res += "};\n";
+	out.value = res;
+};
+
+</script>
+<style>
+#main {
+}
+textarea {
+	display: block;
+	padding: 5px;
+	margin: 20px;
+	width: 90%;
+	height: 10em;
+}
+#src {
+	margin: 20px;
+}
+input {
+	text-align: right;
+	font: monospaced;
+}
+</style>
+</head>
+<body>
+
+<div id="main">
+<textarea id=out></textarea>
+</div>
+
+
+<div id=src>
+APP: CC BY <a href=http://fukuno.jig.jp/ target=_blank>fukuno.jig.jp</a>
+</div>
+
+</body>
+</html>
