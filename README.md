@@ -6,13 +6,13 @@ https://github.com/code4sabae/tenji/tree/master/data
 JSON  
 https://github.com/code4sabae/tenji/tree/master/rokutenkanji.js  
 
-# 日本語点字体系 ライセンス  
-CC BY 長谷川貞夫(Sadao Hasegawa)  
-http://ubq-brl.at.webry.info/  
-
 # 日本語点字体系 アプリケーション
 点字変換webアプリ  
 https://code4sabae.github.io/tenji/converter-jp.html  
+
+# 日本語点字体系 ライセンス  
+CC BY 長谷川貞夫(Sadao Hasegawa)  
+http://ubq-brl.at.webry.info/  
 
 # special thanks (敬称略)
 FCC代表 浅井直湖(Naoko Asai)  
