@@ -15,3 +15,9 @@ http://www5f.biglobe.ne.jp/~telspt/txt6ten.html
 # 日本語点字体系 アプリケーション
 点字変換webアプリ  
 https://code4sabae.github.io/tenji/converter-jp.html  
+
+# special thanks
+FCC代表 浅井直湖　Naoko Asai  
+https://fcc-cheer.jimdo.com/  
+Code for Nerima  
+http://code4nerima.org/  
