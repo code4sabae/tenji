@@ -12,6 +12,6 @@ http://ubq-brl.at.webry.info/
 六点漢字の自叙伝  
 http://www5f.biglobe.ne.jp/~telspt/txt6ten.html
 
-# 日本語点字体系アプリケーション
-点字変換webアプリケーション  
+# 日本語点字体系 アプリケーション
+点字変換webアプリ  
 https://code4sabae.github.io/tenji/converter-jp.html  
